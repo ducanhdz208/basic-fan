@@ -1,7 +1,9 @@
-# Basic Fan 1.0.0 RC2
+# Basic Fan 1.0.0 RC3
 
 Release candidate for testing, not the final 1.0.0 release.
 
+- ⌘W closes the settings window without quitting; monitoring and fan control continue.
+- Launches only in the menu bar. The Dock icon appears when settings open and disappears when they close.
 - About Basic Fan panel showing the current version and “❤️ Made with love by Jimmy Truong”.
 - CPU average in the menu bar, refreshed every second while awake on AC or battery.
 - Dropdown with CPU/GPU averages, power status, and both fan speeds.

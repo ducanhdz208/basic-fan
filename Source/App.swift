@@ -321,7 +321,7 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
         self.model = model
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 492, height: 720), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         super.init(window: window)
-        window.title = "Basic Fan 1.0.0 RC2"; window.isReleasedWhenClosed = false; window.delegate = self
+        window.title = "Basic Fan 1.0.0 RC3"; window.isReleasedWhenClosed = false; window.delegate = self
         window.contentView = NSHostingView(rootView: FanView(model: model))
         window.center()
     }
@@ -331,7 +331,10 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
         let state = "\(formatTemp(model.temperature))|\(formatTemp(model.gpu))|\(model.power)|\(model.speeds)|\(model.ranges)|\(model.percent)|\(model.fixedRPM)|\(model.running)|\(model.requested)|\(model.selectedMode)|\(model.available)|\(model.error)|\(model.message)"
         if state != lastState { lastState = state; model.objectWillChange.send() }
     }
-    func windowWillClose(_ notification: Notification) { model.visibility(window: false) }
+    func windowWillClose(_ notification: Notification) {
+        model.visibility(window: false)
+        NSApplication.shared.setActivationPolicy(.accessory)
+    }
     func windowDidMiniaturize(_ notification: Notification) { model.visibility(window: false) }
     func windowDidDeminiaturize(_ notification: Notification) { model.visibility(window: true) }
 }
@@ -357,7 +360,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         appMenu.addItem(.separator())
         appMenu.addItem(withTitle: "Open Basic Fan…", action: #selector(showWindow), keyEquivalent: "o").target = self
         appMenu.addItem(withTitle: "Quit Basic Fan", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
-        root.submenu = appMenu; main.addItem(root); NSApplication.shared.mainMenu = main
+        root.submenu = appMenu; main.addItem(root)
+        let fileItem = NSMenuItem(), fileMenu = NSMenu(title: "File")
+        fileMenu.addItem(withTitle: "Close Window", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        fileItem.submenu = fileMenu; main.addItem(fileItem)
+        NSApplication.shared.mainMenu = main
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem.button?.font = .monospacedDigitSystemFont(ofSize: 12, weight: .medium)
         statusItem.button?.toolTip = "Average CPU temperature · Click for fan status"
@@ -409,7 +416,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         ])
     }
     @objc func showWindow() {
+        NSApplication.shared.setActivationPolicy(.regular)
         if windowController == nil { windowController = FanWindow(model: model) }
+        windowController?.window?.deminiaturize(nil)
         windowController?.showWindow(nil); model.visibility(window: true)
         windowController?.update(); NSApplication.shared.activate(ignoringOtherApps: true)
     }
@@ -443,7 +452,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         guard geteuid() != 0 else { exit(1) }
         let app = NSApplication.shared, delegate = AppDelegate()
-        app.delegate = delegate; app.setActivationPolicy(.regular)
+        app.delegate = delegate; app.setActivationPolicy(.accessory)
         withExtendedLifetime(delegate) { app.run() }
     }
 }

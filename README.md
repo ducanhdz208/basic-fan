@@ -1,4 +1,4 @@
-# Basic Fan 1.0.0 RC2 — release candidate
+# Basic Fan 1.0.0 RC3 — release candidate
 
 This preview restores the original SwiftUI window from version 0.3.1: the same fan cards, typography, spacing, switch, slider, and buttons, with an additional editable plugged-in RPM field. This is a release candidate, not the final 1.0.0 release. It keeps the working fan-control verification, persistent helper, Dock icon, CPU-only menu-bar label, and detailed dropdown.
 
@@ -11,8 +11,8 @@ Choose **Basic Fan → About Basic Fan** in the top-left app menu to see the cur
 ## Install
 
 1. Quit the currently running Basic Fan from its menu bar. Wait a few seconds for its helper to restore Automatic.
-2. Download **Basic Fan 1.0.0 RC2.pkg** from the GitHub prerelease, then open it and approve the update in macOS Installer.
-3. Open **Basic Fan** from Applications. It starts in the menu bar; click the Dock icon or **Open Basic Fan…** for the settings window.
+2. Download **Basic Fan 1.0.0 RC3.pkg** from the GitHub prerelease, then open it and approve the update in macOS Installer.
+3. Open **Basic Fan** from Applications. It starts in the menu bar without a Dock icon. Choose **Open Basic Fan…** to show the settings window and Dock icon. Close the window with its close button or **⌘W** to hide the Dock icon and keep monitoring and fan control running. Minimizing retains the Dock icon so you can restore the window.
 
 The app and helper are a matched pair. Install the package rather than replacing only the app. Routine fan changes do not ask for your password; installing an update still needs approval.
 
