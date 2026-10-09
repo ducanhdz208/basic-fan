@@ -1,0 +1,6 @@
+.DS_Store
+*.app/
+*.pkg
+*.zip
+Source/ExpectedClient.txt
+.build/

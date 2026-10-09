@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+# Do not replace an app or helper while a previous fan-control session is running.
+if /usr/bin/pgrep -x BasicFan >/dev/null; then
+    echo "Quit Basic Fan from its menu bar before installing."
+    exit 1
+fi
+# A daemon from this installer handles SIGTERM by restoring Automatic.
+if /bin/launchctl print system/local.basicfan.helper >/dev/null 2>&1; then
+    /bin/launchctl bootout system/local.basicfan.helper
+fi
+exit 0

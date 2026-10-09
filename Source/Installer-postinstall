@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+/bin/chmod 755 /Library/PrivilegedHelperTools/local.basicfan.helper
+/usr/sbin/chown root:wheel /Library/PrivilegedHelperTools/local.basicfan.helper /Library/LaunchDaemons/local.basicfan.helper.plist
+/bin/chmod 644 /Library/LaunchDaemons/local.basicfan.helper.plist
+/bin/launchctl bootstrap system /Library/LaunchDaemons/local.basicfan.helper.plist
+/bin/launchctl print system/local.basicfan.helper >/dev/null
+exit 0
