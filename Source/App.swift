@@ -321,7 +321,7 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
         self.model = model
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 492, height: 720), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         super.init(window: window)
-        window.title = "Basic Fan 1.0.0 RC1"; window.isReleasedWhenClosed = false; window.delegate = self
+        window.title = "Basic Fan 1.0.0 RC2"; window.isReleasedWhenClosed = false; window.delegate = self
         window.contentView = NSHostingView(rootView: FanView(model: model))
         window.center()
     }
@@ -353,6 +353,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let url = Bundle.main.url(forResource: "BasicFanIcon", withExtension: "icns"), let icon = NSImage(contentsOf: url) { NSApplication.shared.applicationIconImage = icon }
         model = FanModel()
         let main = NSMenu(), root = NSMenuItem(), appMenu = NSMenu()
+        appMenu.addItem(withTitle: "About Basic Fan", action: #selector(showAbout), keyEquivalent: "").target = self
+        appMenu.addItem(.separator())
         appMenu.addItem(withTitle: "Open Basic Fan…", action: #selector(showWindow), keyEquivalent: "o").target = self
         appMenu.addItem(withTitle: "Quit Basic Fan", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         root.submenu = appMenu; main.addItem(root); NSApplication.shared.mainMenu = main
@@ -391,6 +393,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     func menuWillOpen(_ menu: NSMenu) { menuVisible = true; model.visibility(menu: true); update() }
     func menuDidClose(_ menu: NSMenu) { menuVisible = false; model.visibility(menu: false) }
+    @objc func showAbout() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+        let channel = Bundle.main.object(forInfoDictionaryKey: "BasicFanReleaseChannel") as? String ?? ""
+        let displayVersion = [version, channel].filter { !$0.isEmpty }.joined(separator: " ")
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.orderFrontStandardAboutPanel(options: [
+            .applicationName: "Basic Fan",
+            .applicationVersion: displayVersion,
+            .version: "",
+            .credits: NSAttributedString(string: "❤️ Made with love by Jimmy Truong", attributes: [
+                .font: NSFont.systemFont(ofSize: 13),
+                .foregroundColor: NSColor.labelColor
+            ])
+        ])
+    }
     @objc func showWindow() {
         if windowController == nil { windowController = FanWindow(model: model) }
         windowController?.showWindow(nil); model.visibility(window: true)

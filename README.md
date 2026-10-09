@@ -1,4 +1,4 @@
-# Basic Fan 1.0.0 RC1 — release candidate
+# Basic Fan 1.0.0 RC2 — release candidate
 
 This preview restores the original SwiftUI window from version 0.3.1: the same fan cards, typography, spacing, switch, slider, and buttons, with an additional editable plugged-in RPM field. This is a release candidate, not the final 1.0.0 release. It keeps the working fan-control verification, persistent helper, Dock icon, CPU-only menu-bar label, and detailed dropdown.
 
@@ -6,10 +6,12 @@ This preview restores the original SwiftUI window from version 0.3.1: the same f
 
 Tested on a 16-inch MacBook Pro with M1 Max running macOS 27.0.1. This is not a general-purpose fan controller for every Mac; other hardware and older macOS versions have not been validated. The app uses private SMC interfaces.
 
+Choose **Basic Fan → About Basic Fan** in the top-left app menu to see the current version and “❤️ Made with love by Jimmy Truong”.
+
 ## Install
 
 1. Quit the currently running Basic Fan from its menu bar. Wait a few seconds for its helper to restore Automatic.
-2. Download **Basic Fan 1.0.0 RC1.pkg** from the GitHub prerelease, then open it and approve the update in macOS Installer.
+2. Download **Basic Fan 1.0.0 RC2.pkg** from the GitHub prerelease, then open it and approve the update in macOS Installer.
 3. Open **Basic Fan** from Applications. It starts in the menu bar; click the Dock icon or **Open Basic Fan…** for the settings window.
 
 The app and helper are a matched pair. Install the package rather than replacing only the app. Routine fan changes do not ask for your password; installing an update still needs approval.
@@ -73,7 +75,7 @@ Only the exact matching signed app build may call this root helper. Its interfac
 - 31 helper lifecycle checks passed, including power transitions, heartbeat expiry, competing clients, disconnect, failed restoration, custom RPM changes, and deduplicated heartbeats.
 - Installer payload, signatures, root-owned service files, and exact-build client requirement checked.
 - The established SMC write and bounded verification implementation is preserved.
-- RC1: a 30-second read-only background benchmark showed approximately 100–110 MiB resident memory. CPU time increased by 0.33 seconds over the measured 20-second interval, averaging about 1.65% of one CPU core. Sampled instantaneous CPU usage ranged from 0% to 7%. These are short CPU/memory observations, not a wattage or battery-life test.
+- Prior RC1 build: a 30-second read-only background benchmark showed approximately 100–110 MiB resident memory. CPU time increased by 0.33 seconds over the measured 20-second interval, averaging about 1.65% of one CPU core. Sampled instantaneous CPU usage ranged from 0% to 7%. These are short CPU/memory observations, not a wattage or battery-life test.
 - The benchmark copy did not control fans; its full fan-active power usage and the new custom-RPM behavior need checking after this preview is installed.
 - No GUI screenshot inspection was completed; the earlier computer-use capture service failed.
 
