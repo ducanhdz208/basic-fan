@@ -1,7 +1,10 @@
-# Basic Fan 1.0.0 RC3
+# Basic Fan 1.0.0
 
-Release candidate for testing, not the final 1.0.0 release.
+Official release based on RC3, with a new adaptive app icon. Fan-control behavior is unchanged.
 
+Download **Basic.Fan.1.0.0.pkg** from Assets below. Quit any running Basic Fan, install the package, then open Basic Fan from Applications.
+
+- Layered app icon with default, dark, clear, and tinted appearances.
 - ⌘W closes the settings window without quitting; monitoring and fan control continue.
 - Launches only in the menu bar. The Dock icon appears when settings open and disappears when they close.
 - About Basic Fan panel showing the current version and “❤️ Made with love by Jimmy Truong”.
@@ -17,3 +20,5 @@ Tested on a 16-inch M1 Max MacBook Pro running macOS 27.0.1. Other configuration
 Quit the existing app before installing the package, then reopen Basic Fan from Applications. Install the app and helper together using the package. This build is ad-hoc signed; the installer is unsigned and not notarized, so macOS may block it. Do not disable system-wide security protections.
 
 The helper restores automatic control on normal quit, disconnect, heartbeat expiry, and serious thermal pressure. Forced termination of the helper itself cannot guarantee restoration. Avoid simultaneous fan controllers. See README for limitations and removal instructions.
+
+The six icon appearances were checked using Apple’s renderer. Live Dock appearance switching has not been independently verified.

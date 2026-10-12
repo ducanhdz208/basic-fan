@@ -1,0 +1,60 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "solid": "srgb:0.95,0.96,0.97,1"
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "solid": "srgb:0.12,0.13,0.15,1"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Fan",
+      "lighting": "individual",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.12
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.12
+      },
+      "layers": [
+        {
+          "name": "Fan",
+          "image-name": "Fan.svg",
+          "glass": true,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.15,0.16,0.18,1"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.96,0.97,0.98,1"
+              }
+            },
+            {
+              "appearance": "tinted",
+              "value": {
+                "solid": "extended-gray:1.00000,1.00000"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "supported-platforms": {
+    "squares": [
+      "macOS"
+    ]
+  }
+}

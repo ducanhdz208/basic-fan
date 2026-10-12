@@ -5,7 +5,7 @@ final class Session: NSObject, FanHelperProtocol {
     let id = UUID()
     let server: HelperServer
     init(_ server: HelperServer) { self.server = server }
-    func ping(withReply reply: @escaping (String) -> Void) { reply("Basic Fan helper 1.0.0 RC3 ready") }
+    func ping(withReply reply: @escaping (String) -> Void) { reply("Basic Fan helper 1.0.0 ready") }
     func update(mode: String, percent: Double, rpm: Double, suspended: Bool, withReply reply: @escaping (String) -> Void) {
         server.queue.async {
             let status = self.server.engine.update(owner: self.id, mode: mode, percent: percent, rpm: rpm, suspended: suspended, now: Date().timeIntervalSince1970)

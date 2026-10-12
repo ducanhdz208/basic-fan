@@ -6,8 +6,23 @@ BUILD="$(mktemp -d "${TMPDIR:-/tmp}/basicfan-build.XXXXXX")"
 trap 'rm -rf "$BUILD"' EXIT
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 swiftc -swift-version 5 -Osize -whole-module-optimization -target arm64-apple-macosx13.0 -module-cache-path "${TMPDIR:-/tmp}/basicfan-module-cache" Source/SMC.swift Source/Control.swift Source/HelperProtocol.swift Source/PowerObserver.swift Source/SensorReader.swift Source/App.swift -framework AppKit -framework SwiftUI -framework IOKit -o "$APP/Contents/MacOS/BasicFan"
-cp Source/AppIcon.icns "$APP/Contents/Resources/BasicFanIcon.icns"
+# Full Xcode is required to compile the layered icon and its legacy fallback.
+ICON_DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
+if [[ ! -x "$ICON_DEVELOPER_DIR/usr/bin/actool" ]]; then
+    echo "Full Xcode is required. Set DEVELOPER_DIR to its Contents/Developer directory." >&2
+    exit 1
+fi
+DEVELOPER_DIR="$ICON_DEVELOPER_DIR" xcrun actool "$PWD/Source/BasicFanIcon.icon" \
+    --compile "$PWD/$APP/Contents/Resources" --platform macosx \
+    --minimum-deployment-target 13.0 --app-icon BasicFanIcon \
+    --output-partial-info-plist "$BUILD/icon-info.plist" --output-format human-readable-text
 cp Source/Info.plist "$APP/Contents/Info.plist"
+/usr/bin/python3 - "$APP/Contents/Info.plist" "$BUILD/icon-info.plist" <<'PYICON'
+import plistlib,sys
+with open(sys.argv[1], 'rb') as f: info = plistlib.load(f)
+with open(sys.argv[2], 'rb') as f: info.update(plistlib.load(f))
+with open(sys.argv[1], 'wb') as f: plistlib.dump(info, f)
+PYICON
 cp Source/Stats-LICENSE "$APP/Contents/Resources/Stats-LICENSE"
 codesign --force --sign - "$APP"
 HASH="$(codesign -d --verbose=4 "$APP" 2>&1 | sed -n 's/^CDHash=//p')"

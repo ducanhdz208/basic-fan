@@ -321,7 +321,7 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
         self.model = model
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 492, height: 720), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         super.init(window: window)
-        window.title = "Basic Fan 1.0.0 RC3"; window.isReleasedWhenClosed = false; window.delegate = self
+        window.title = "Basic Fan 1.0.0"; window.isReleasedWhenClosed = false; window.delegate = self
         window.contentView = NSHostingView(rootView: FanView(model: model))
         window.center()
     }
@@ -353,7 +353,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let stateItem = NSMenuItem(title: "Reading fans…", action: nil, keyEquivalent: "")
     private let modeItem = NSMenuItem(title: "2000 RPM when plugged in", action: #selector(powerMode), keyEquivalent: "")
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if let url = Bundle.main.url(forResource: "BasicFanIcon", withExtension: "icns"), let icon = NSImage(contentsOf: url) { NSApplication.shared.applicationIconImage = icon }
         model = FanModel()
         let main = NSMenu(), root = NSMenuItem(), appMenu = NSMenu()
         appMenu.addItem(withTitle: "About Basic Fan", action: #selector(showAbout), keyEquivalent: "").target = self

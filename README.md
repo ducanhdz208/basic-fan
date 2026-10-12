@@ -1,6 +1,8 @@
-# Basic Fan 1.0.0 RC3 — release candidate
+# Basic Fan 1.0.0
 
-This preview restores the original SwiftUI window from version 0.3.1: the same fan cards, typography, spacing, switch, slider, and buttons, with an additional editable plugged-in RPM field. This is a release candidate, not the final 1.0.0 release. It keeps the working fan-control verification, persistent helper, Dock icon, CPU-only menu-bar label, and detailed dropdown.
+[**Download Basic Fan 1.0.0 installer (.pkg)**](https://github.com/ducanhdz208/basic-fan/releases/download/v1.0.0/Basic.Fan.1.0.0.pkg)
+
+Basic Fan retains the original SwiftUI window from version 0.3.1: the same fan cards, typography, spacing, switch, slider, and buttons, with an additional editable plugged-in RPM field. This is the official 1.0.0 release, based on RC3. It keeps the working fan-control verification, persistent helper, Dock icon, CPU-only menu-bar label, and detailed dropdown.
 
 ## Compatibility
 
@@ -11,7 +13,7 @@ Choose **Basic Fan → About Basic Fan** in the top-left app menu to see the cur
 ## Install
 
 1. Quit the currently running Basic Fan from its menu bar. Wait a few seconds for its helper to restore Automatic.
-2. Download **Basic Fan 1.0.0 RC3.pkg** from the GitHub prerelease, then open it and approve the update in macOS Installer.
+2. Download **Basic Fan 1.0.0.pkg** from the GitHub release, then open it and approve the update in macOS Installer.
 3. Open **Basic Fan** from Applications. It starts in the menu bar without a Dock icon. Choose **Open Basic Fan…** to show the settings window and Dock icon. Close the window with its close button or **⌘W** to hide the Dock icon and keep monitoring and fan control running. Minimizing retains the Dock icon so you can restore the window.
 
 The app and helper are a matched pair. Install the package rather than replacing only the app. Routine fan changes do not ask for your password; installing an update still needs approval.
@@ -67,7 +69,7 @@ The helper restores Automatic on disconnect, explicit Automatic, or quit. A six-
 
 The helper keeps retrying failed cleanup after a client disconnects. A forced kill or crash of the helper itself cannot guarantee restoration; restart the Mac if cooling control gets stuck. Avoid running a second fan controller at the same time.
 
-Only the exact matching signed app build may call this root helper. Its interface accepts bounded fan commands, never arbitrary shell commands or filesystem paths. No password is stored and no sudo policy is changed. This remains a local ad-hoc-signed test build with an unsigned installer, not a notarized public release.
+Only the exact matching signed app build may call this root helper. Its interface accepts bounded fan commands, never arbitrary shell commands or filesystem paths. No password is stored and no sudo policy is changed. This release is ad-hoc signed with an unsigned installer; it is not notarized.
 
 ## Validation and measurement
 
@@ -76,19 +78,23 @@ Only the exact matching signed app build may call this root helper. Its interfac
 - Installer payload, signatures, root-owned service files, and exact-build client requirement checked.
 - The established SMC write and bounded verification implementation is preserved.
 - Prior RC1 build: a 30-second read-only background benchmark showed approximately 100–110 MiB resident memory. CPU time increased by 0.33 seconds over the measured 20-second interval, averaging about 1.65% of one CPU core. Sampled instantaneous CPU usage ranged from 0% to 7%. These are short CPU/memory observations, not a wattage or battery-life test.
-- The benchmark copy did not control fans; its full fan-active power usage and the new custom-RPM behavior need checking after this preview is installed.
+- The benchmark copy did not control fans; its full fan-active power usage and the new custom-RPM behavior need checking after installation.
 - No GUI screenshot inspection was completed; the earlier computer-use capture service failed.
 
 ## Remove / rebuild
 
 Quit the app, then run **Remove Helper.command** to remove the system helper with administrator approval. The app can then be moved to Trash.
 
-Run `./build.sh` using Apple's Command Line Tools to rebuild the app and matching package. The signed app's code hash is embedded in the helper; Source/ExpectedClient.txt records it. Rebuilding means reinstalling both together.
+Run `./build.sh` using full Xcode to rebuild the app and matching package. The signed app's code hash is embedded in the helper; Source/ExpectedClient.txt records it. Rebuilding means reinstalling both together.
 
 SMC.swift is adapted from Serhiy Mytrovtsiy's MIT-licensed Stats project: https://github.com/exelban/stats/blob/master/SMC/smc.swift. Sensor mapping: https://github.com/exelban/stats/blob/master/Modules/Sensors/values.swift. Original license: Source/Stats-LICENSE and the app resources.
 
 ## Source and contributions
 
-Build on an Apple Silicon Mac with Apple Command Line Tools installed. Run `./test.sh` for the read-only policy and mocked helper tests, then `./build.sh` to build the matching app and installer. No administrator access is needed for the tests. Generated apps, packages, and code-signing metadata are excluded from source control.
+Build on an Apple Silicon Mac with full Xcode installed. Run `./test.sh` for the read-only policy and mocked helper tests, then `./build.sh` to build the matching app and installer. No administrator access is needed for the tests. Generated apps, packages, and code-signing metadata are excluded from source control.
 
 Original project code is MIT licensed; the upstream Stats copyright and license are retained in `Source/Stats-LICENSE`.
+
+## Adaptive app icon
+
+The app includes a layered Icon Composer icon with default, dark, clear and tinted appearances, plus a generated ICNS fallback for older macOS. The system selects the appearance; the app does not force a static Dock image. Edit `Source/BasicFanIcon.icon` in Icon Composer. Building requires full Xcode; set `DEVELOPER_DIR` if Xcode is not installed at `/Applications/Xcode.app`.
