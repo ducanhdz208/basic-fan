@@ -321,7 +321,7 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
         self.model = model
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 492, height: 720), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         super.init(window: window)
-        window.title = "Basic Fan 1.0.0"; window.isReleasedWhenClosed = false; window.delegate = self
+        window.title = "Basic Fan 1.1.0"; window.isReleasedWhenClosed = false; window.delegate = self
         window.contentView = NSHostingView(rootView: FanView(model: model))
         window.center()
     }
@@ -340,7 +340,8 @@ final class FanWindow: NSWindowController, NSWindowDelegate {
 }
 func formatTemp(_ value: Double?) -> String { value.map { "\(Int($0.rounded()))°C" } ?? "—°C" }
 
-final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+@MainActor final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+    private let services = AppServices()
     private var model: FanModel!
     private var windowController: FanWindow?
     private var statusItem: NSStatusItem!
@@ -374,7 +375,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(.separator())
         menu.addItem(withTitle: "Open Basic Fan…", action: #selector(showWindow), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Quit Basic Fan", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let settings = NSMenuItem(title: "Settings & Updates", action: nil, keyEquivalent: "")
+        settings.submenu = services.menu(); menu.insertItem(settings, at: menu.numberOfItems - 1)
         statusItem.menu = menu
+        if !CommandLine.arguments.contains("--benchmark") { services.start() }
         model.onUpdate = { [weak self] in self?.update() }
         update()
         if CommandLine.arguments.contains("--benchmark") {
@@ -429,7 +433,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
     func applicationWillTerminate(_ notification: Notification) { model.shutdown() }
 }
-@main struct BasicFan {
+@MainActor @main struct BasicFan {
     static func main() {
         let args = CommandLine.arguments
         if args.contains("--helper-check") {

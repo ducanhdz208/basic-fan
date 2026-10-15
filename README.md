@@ -38,6 +38,16 @@ Basic Fan returns control to macOS on normal quit, connection loss, heartbeat ex
 
 [Technical notes and test results](docs/TECHNICAL_NOTES.md)
 
+## Updates and startup (1.1.0)
+
+Open **Settings & Updates** in the menu-bar dropdown:
+
+- **Launch at Login** starts monitoring when you sign in. Fan modes remain off until you enable them. macOS may require approval in Login Items.
+- **Check for Updates…** checks the latest stable GitHub release and offers a verified installer.
+- **Automatically Check for Updates** is optional and checks at most once a day. Updates still require your confirmation and macOS administrator approval.
+
+Updates replace the app and helper in place. The updater checks GitHub’s SHA-256 digest before opening the package, never deletes the installed app itself, and removes its temporary installer only after the new app and matching helper are confirmed on relaunch. A failed or cancelled download is discarded; an installer cancelled after handoff is retained until a successful update or the next download. Preferences are preserved. macOS Installer does not provide this app with a guaranteed rollback after an interrupted installation.
+
 ## Build or remove
 
 To build, use an Apple Silicon Mac with full Xcode installed:

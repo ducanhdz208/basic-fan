@@ -7,3 +7,5 @@ swiftc -swift-version 5 -module-cache-path "$TEST_BUILD/cache" Source/SMC.swift 
 "$TEST_BUILD/policy-tests"
 swiftc -swift-version 5 -module-cache-path "$TEST_BUILD/cache" Source/SMC.swift Source/Control.swift Source/FanEngine.swift Source/EngineTests.swift -framework IOKit -o "$TEST_BUILD/engine-tests"
 "$TEST_BUILD/engine-tests"
+swiftc -swift-version 5 -module-cache-path "$TEST_BUILD/cache" Source/UpdatePolicy.swift Source/UpdateTests.swift -o "$TEST_BUILD/update-tests"
+"$TEST_BUILD/update-tests"

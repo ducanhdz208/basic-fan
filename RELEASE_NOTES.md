@@ -1,24 +1,11 @@
-# Basic Fan 1.0.0
+# Basic Fan 1.1.0
 
-Official release based on RC3, with a new adaptive app icon. Fan-control behavior is unchanged.
+- Launch at Login via macOS Login Items, available under Settings & Updates.
+- Manual update checking and optional daily checks against stable GitHub releases.
+- Installer download verification using GitHub SHA-256 digests and exact asset sizes.
+- In-place installation of the app and matching helper through macOS Installer, with administrator approval.
+- Temporary package cleanup after the updated app and matching helper are confirmed on relaunch; no deletion of unrelated files or old app bundles by the updater.
 
-Download **Basic.Fan.1.0.0.pkg** from Assets below. Quit any running Basic Fan, install the package, then open Basic Fan from Applications.
+Install this version manually once to enable future update checks. Quit Basic Fan before opening the package. Existing fan settings remain saved; fan modes do not start automatically at login.
 
-- Layered app icon with default, dark, clear, and tinted appearances.
-- ⌘W closes the settings window without quitting; monitoring and fan control continue.
-- Launches only in the menu bar. The Dock icon appears when settings open and disappears when they close.
-- About Basic Fan panel showing the current version and “❤️ Made with love by Jimmy Truong”.
-- CPU average in the menu bar, refreshed every second while awake on AC or battery.
-- Dropdown with CPU/GPU averages, power status, and both fan speeds.
-- Editable plugged-in RPM, with automatic cooling on battery.
-- Original SwiftUI settings window and minimal Dock fan icon.
-- Persistent privileged helper: one administrator approval at installation, no repeated prompts for ordinary controls.
-- Deferred hidden GPU/fan reads and reduced redundant fan writes.
-
-Tested on a 16-inch M1 Max MacBook Pro running macOS 27.0.1. Other configurations are unverified. All 84 policy and mocked helper checks passed. A short read-only background test of the prior RC1 build averaged 1.65% of one CPU core and 100–110 MiB resident memory; battery impact and full fan-active power were not measured.
-
-Quit the existing app before installing the package, then reopen Basic Fan from Applications. Install the app and helper together using the package. This build is ad-hoc signed; the installer is unsigned and not notarized, so macOS may block it. Do not disable system-wide security protections.
-
-The helper restores automatic control on normal quit, disconnect, heartbeat expiry, and serious thermal pressure. Forced termination of the helper itself cannot guarantee restoration. Avoid simultaneous fan controllers. See README for limitations and removal instructions.
-
-The six icon appearances were checked using Apple’s renderer. Live Dock appearance switching has not been independently verified.
+110 automated checks passed, including corrupt downloads, release filtering, version comparisons, cleanup, and symlink safeguards. Launch-at-login behavior across logout/login and the interactive installer handoff still need a live check. No full transactional rollback is provided for an interrupted macOS installation. The app remains ad-hoc signed and the installer unsigned and not notarized.

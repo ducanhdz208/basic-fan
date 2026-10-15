@@ -5,7 +5,7 @@ APP="Basic Fan.app"
 BUILD="$(mktemp -d "${TMPDIR:-/tmp}/basicfan-build.XXXXXX")"
 trap 'rm -rf "$BUILD"' EXIT
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-swiftc -swift-version 5 -Osize -whole-module-optimization -target arm64-apple-macosx13.0 -module-cache-path "${TMPDIR:-/tmp}/basicfan-module-cache" Source/SMC.swift Source/Control.swift Source/HelperProtocol.swift Source/PowerObserver.swift Source/SensorReader.swift Source/App.swift -framework AppKit -framework SwiftUI -framework IOKit -o "$APP/Contents/MacOS/BasicFan"
+swiftc -swift-version 5 -Osize -whole-module-optimization -target arm64-apple-macosx13.0 -module-cache-path "${TMPDIR:-/tmp}/basicfan-module-cache" Source/SMC.swift Source/Control.swift Source/HelperProtocol.swift Source/PowerObserver.swift Source/SensorReader.swift Source/UpdatePolicy.swift Source/AppServices.swift Source/App.swift -framework AppKit -framework SwiftUI -framework ServiceManagement -framework IOKit -o "$APP/Contents/MacOS/BasicFan"
 # Full Xcode is required to compile the layered icon and its legacy fallback.
 ICON_DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
 if [[ ! -x "$ICON_DEVELOPER_DIR/usr/bin/actool" ]]; then
@@ -42,7 +42,7 @@ cp Source/Installer-preinstall "$BUILD/scripts/preinstall"
 cp Source/Installer-postinstall "$BUILD/scripts/postinstall"
 chmod 755 "$BUILD/scripts/"* "$BUILD/root/Library/PrivilegedHelperTools/local.basicfan.helper"
 chmod 644 "$BUILD/root/Library/LaunchDaemons/local.basicfan.helper.plist"
-pkgbuild --root "$BUILD/root" --identifier local.basicfan.installer --version 1.0.0 --install-location / --ownership recommended --scripts "$BUILD/scripts" --component-plist Source/Components.plist "Basic Fan.pkg"
+pkgbuild --root "$BUILD/root" --identifier local.basicfan.installer --version 1.1.0 --install-location / --ownership recommended --scripts "$BUILD/scripts" --component-plist Source/Components.plist "Basic Fan.pkg"
 codesign --verify --deep --strict "$APP"
 # Preserve the exact pinned requirement as build metadata for inspection.
 cp "$BUILD/ExpectedClient.swift" Source/ExpectedClient.txt
