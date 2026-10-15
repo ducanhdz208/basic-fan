@@ -6,7 +6,7 @@
 
 A simple macOS menu-bar fan controller. See your CPU temperature at a glance, and set a fan speed for when your Mac is plugged in.
 
-[**Download 1.0.0 (.pkg)**](https://github.com/ducanhdz208/basic-fan/releases/download/v1.0.0/Basic.Fan.1.0.0.pkg) · [Release notes](https://github.com/ducanhdz208/basic-fan/releases/latest)
+[**Download 1.1.0 (.pkg)**](https://github.com/ducanhdz208/basic-fan/releases/download/v1.1.0/Basic.Fan.1.1.0.pkg) · [Release notes](https://github.com/ducanhdz208/basic-fan/releases/latest)
 
 ## Features
 
